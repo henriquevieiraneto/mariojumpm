@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Mário Jump</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preload" href="./images/mario.gif" as="image">
+    <link rel="preload" href="./images/pipe.png" as="image">
+</head>
+<body>
+    <div class="game-container">
+        <div class="gameboard">
+            <div class="start-screen">
+                <h1>Mário Jump</h1>
+                <div class="high-score">Recorde: 0</div>
+                <button id="startButton" class="touch-button">Iniciar Jogo</button>
+                <div class="controls-info">
+                    <p class="desktop-instruction" style="display: none;">Pressione ESPAÇO ou SETA PARA CIMA para pular</p>
+                    <p class="mobile-instruction" style="display: block;">Toque em qualquer lugar da tela para pular</p>
+                </div>
+            </div>
+
+            <div class="background day-bg"></div>
+            <img src="./images/chuva.gif" class="rain" alt="Chuva" loading="lazy">
+            <img src="./images/clouds.png" class="clouds" alt="Nuvens" loading="lazy">
+            <img src="./images/sol.png" class="sol" alt="Sol" loading="lazy">
+            <img src="./images/lua.png" class="lua" alt="Lua" loading="lazy">
+            <img src="./images/pipe.png" class="pipe" alt="Cano" loading="eager">
+            <img src="./images/mario.gif" class="mario" alt="Mário" loading="eager">
+            <img src="./images/game-over.png" class="game-over" alt="Game Over" loading="eager">
+
+            <div class="pause-menu">
+                <h2>Jogo Pausado</h2>
+                <button id="resumeButton">Continuar</button>
+                <button id="restartButtonPause">Reiniciar</button>
+                <button id="quitButton">Menu Principal</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+
+    <script>
+        // Detectar dispositivo e configurar controles
+        document.addEventListener('DOMContentLoaded', function() {
+            const isTouchDevice = 'ontouchstart' in window ||
+                                    navigator.maxTouchPoints > 0 ||
+                                    navigator.msMaxTouchPoints > 0;
+
+            if (isTouchDevice) {
+                document.body.classList.add('touch-device');
+                document.querySelector('.mobile-instruction').style.display = 'block';
+                document.querySelector('.desktop-instruction').style.display = 'none';
+                document.querySelector('.gameboard').classList.add('touch-controls');
+            } else {
+                document.querySelector('.mobile-instruction').style.display = 'none';
+                document.querySelector('.desktop-instruction').style.display = 'block';
+            }
+
+            // Garantir que os recursos estejam carregados
+            window.addEventListener('load', function() {
+                console.log('Todos os recursos foram carregados');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+/* ===== ESTILOS BASE (MOBILE OPTIMIZED) ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    touch-action: manipulation;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+/* CONTAINER PRINCIPAL */
+.game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+/* TABULEIRO DO JOGO */
+.gameboard {
+    width: 95%; /* Take more width on mobile */
+    max-width: 600px; /* Still maintain a max width */
+    height: 70vh; /* Adjust height for mobile screens */
+    min-height: 300px;
+    max-height: none; /* Allow height to adjust more freely */
+    border-bottom: 15px solid rgb(35, 160, 35);
+    position: relative;
+    overflow: hidden;
+    background-color: #87ceeb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
+
+/* ELEMENTOS DO JOGO */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 1s ease-in-out;
+}
+
+.day-bg {
+    background: linear-gradient(to bottom, #87ceeb, #e0f6ff);
+    opacity: 1;
+}
+
+.night-bg {
+    background: linear-gradient(to bottom, #1a1a40, #3a3a6e);
+    opacity: 0;
+}
+
+.gameboard.night .day-bg {
+    opacity: 0;
+}
+
+.gameboard.night .night-bg {
+    opacity: 1;
+}
+
+.sol, .lua {
+    position: absolute;
+    width: 50px; /* Slightly smaller on mobile */
+    z-index: 1;
+    transition: opacity 1s ease-in-out;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 5%;
+}
+
+.sol { opacity: 1; }
+.lua { opacity: 0; }
+
+.gameboard.night .sol { opacity: 0; }
+.gameboard.night .lua { opacity: 1; }
+
+.pipe {
+    position: absolute;
+    bottom: 0;
+    width: 50px; /* Slightly smaller on mobile */
+    left: 100%;
+    z-index: 2;
+}
+
+.mario {
+    width: 80px; /* Adjusted size for mobile */
+    position: absolute;
+    bottom: 0;
+    left: 20px; /* Move slightly to the left */
+    z-index: 3;
+    transition: transform 0.1s;
+}
+
+.game-over {
+    position: absolute;
+    width: 50px; /* Slightly smaller on mobile */
+    bottom: 0;
+    left: 40px; /* Adjusted position */
+    z-index: 3;
+    display: none;
+}
+
+.jump {
+    animation: jump 500ms ease-out;
+}
+
+.clouds {
+    position: absolute;
+    width: 300px; /* Adjusted size for mobile */
+    bottom: 55%;
+    z-index: 2;
+    opacity: 0.9;
+    animation: clouds-animation 25s infinite linear;
+}
+
+.rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+    display: none;
+    object-fit: cover;
+}
+
+.gameboard.raining .rain {
+    opacity: 0.7;
+    display: block;
+}
+
+.gameboard.raining .day-bg {
+    background: linear-gradient(to bottom, #5d8aa8, #b0c4de);
+}
+
+/* ANIMAÇÕES */
+@keyframes jump {
+    0% { transform: translateY(0); }
+    10% { transform: translateY(-100px); } /* Slightly lower jump on mobile */
+    20% { transform: translateY(-110px); }
+    30% { transform: translateY(-140px); }
+    40% { transform: translateY(-160px); }
+    50% { transform: translateY(-180px); }
+    60% { transform: translateY(-160px); }
+    70% { transform: translateY(-140px); }
+    80% { transform: translateY(-120px); }
+    90% { transform: translateY(-100px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes clouds-animation {
+    from { right: -300px; } /* Adjusted for mobile cloud size */
+    to { right: 100%; }
+}
+
+/* TELA DE GAME OVER */
+.restart-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 1.2em 1.8em; /* Slightly smaller padding */
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    z-index: 25;
+    width: 85%;
+    max-width: 300px; /* Smaller max width */
+}
+
+.restart-screen .score,
+.restart-screen .high-score {
+    font-size: clamp(1rem, 4vw, 1.2rem); /* Slightly smaller font */
+    margin-bottom: 0.6em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.restart-screen button {
+    font-size: clamp(1rem, 4.5vw, 1.1rem); /* Slightly smaller font */
+    padding: 0.5em 1em;
+    background-color: #35a535;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 0.4em;
+}
+
+.restart-screen button:hover,
+.restart-screen button:active {
+    background-color: #2e8b2e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* PLACAR */
+.score-display {
+    position: absolute;
+    top: 10px; /* Move closer to the top */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(1rem, 5vw, 1.3rem); /* Slightly smaller font */
+    font-weight: bold;
+    color: black;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+    z-index: 15;
+    display: none;
+}
+
+.gameboard.night .score-display {
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* TELA INICIAL */
+.start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    padding: 1em;
+    text-align: center;
+}
+
+.start-screen h1 {
+    font-size: clamp(1.5rem, 8vw, 2.5rem); /* Slightly smaller title */
+    margin-bottom: 0.4em;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.start-screen .high-score {
+    font-size: clamp(0.9rem, 4.5vw, 1.3rem); /* Slightly smaller high score */
+    margin-bottom: 1em;
+    color: #555;
+}
+
+.start-screen button {
+    font-size: clamp(1rem, 5vw, 1.3rem); /* Slightly smaller button font */
+    padding: 0.6em 1.2em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.start-screen button:hover,
+.start-screen button:active {
+    background-color: #0056b3;
+}
+
+/* Menu de Pausa */
+.pause-menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 1.5em; /* Slightly smaller padding */
+    border-radius: 10px;
+    text-align: center;
+    z-index: 30;
+    display: none;
+    width: 85%;
+    max-width: 280px; /* Smaller max width */
+}
+
+.pause-menu h2 {
+    color: white;
+    margin-bottom: 0.8em;
+    font-size: 1.4em; /* Slightly smaller heading */
+}
+
+.pause-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px; /* Smaller padding */
+    margin: 0.4em 0;
+    font-size: 1em; /* Slightly smaller font */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pause-menu button:hover {
+    background-color: #45a049;
+}
+
+#quitButton {
+    background-color: #f44336;
+}
+
+#quitButton:hover {
+    background-color: #d32f2f;
+}
+
+/* Botão de pausa flutuante */
+.pause-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2em;
+    z-index: 20;
+    display: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* CONTROLES DE VISIBILIDADE */
+.background, .clouds, .sol, .lua, .pipe, .mario, .score-display, .rain, .game-over {
+    display: none;
+}
+
+.gameboard.game-started .background,
+.gameboard.game-started .clouds,
+.gameboard.game-started .sol,
+.gameboard.game-started .lua,
+.gameboard.game-started .pipe,
+.gameboard.game-started .mario,
+.gameboard.game-started .score-display,
+.gameboard.game-started .rain {
+    display: block;
+}
+
+.gameboard.game-started .start-screen {
+    display: none;
+}
+
+/* ===== OTIMIZAÇÕES PARA MOBILE E GITHUB PAGES ===== */
+
+/* INSTRUÇÕES DE CONTROLE */
+.controls-info {
+    margin-top: 15px; /* Slightly less margin */
+    text-align: center;
+}
+
+.mobile-instruction {
+    display: block; /* Show mobile instructions by default */
+    font-size: 0.9rem; /* Slightly smaller font */
+    color: #555;
+}
+
+.desktop-instruction {
+    display: none; /* Hide desktop instructions by default */
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* BOTÕES PARA TOUCH */
+.touch-button {
+    min-width: 120px; /* Slightly smaller button */
+    padding: 12px 20px; /* Smaller padding */
+    font-size: 1rem; /* Smaller font */
+    border-radius: 10px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* AJUSTES RESPONSIVOS */
+@media (max-width: 768px), (max-height: 500px) {
+    .gameboard {
+        height: 75vh; /* Adjust height further for smaller screens */
+        min-height: 250px;
+    }
+
+    .mario {
+        width: 70px !important;
+    }
+
+    .pipe {
+        width: 40px !important;
+    }
+
+    .game-over {
+        width: 45px !important;
+        left: 35px !important;
+    }
+
+    .sol, .lua {
+        width: 35px !important;
+    }
+
+    .clouds {
+        width: 200px !important;
+    }
+
+    .start-screen h1 {
+        font-size: 1.8rem !important;
+    }
+
+    .pause-button {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3em;
+    }
+
+    /* Animação de pulo simplificada para mobile */
+    @keyframes jump {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-130px); } /* Further adjust jump height */
+        100% { transform: translateY(0); }
+    }
+}
+
+@media (max-width: 400px) {
+    .gameboard {
+        height: 65vh;
+        min-height: 200px;
+    }
+
+    .mario {
+        width: 60px !important;
+    }
+
+    .pipe {
+        width: 35px !important;
+    }
+
+    .start-screen h1 {
+        font-size: 1.6rem !important;
+    }
+
+    .pause-menu {
+        padding: 1.2em;
+    }
+}
+
+/* ORIENTAÇÃO PAISAGEM */
+@media (orientation: landscape) and (max-height: 500px) {
+    .gameboard {
+        height: 85vh; /* Adjust height for landscape */
+        min-height: 180px;
+    }
+}
+
+/* ESTILOS PARA DISPOSITIVOS TOUCH */
+body.touch-device {
+    touch-action: manipulation;
+
+    .gameboard {
+        cursor: pointer;
+    }
+
+    .gameboard:active {
+        opacity: 0.95;
+        transition: opacity 0.1s;
+    }
+}
